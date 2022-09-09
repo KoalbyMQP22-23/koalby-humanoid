@@ -18,7 +18,7 @@ if __name__ == '__main__':
 class ArduinoSerial(object):
 
     def __init__(self):
-        self.ser = serial.Serial('COM4', 115200, timeout=1)
+        self.ser = serial.Serial('/dev/cu.usbserial-14410', 115200, timeout=1)  # change this to get correct port
         self.ser.reset_input_buffer()
         time.sleep(3)  # serial buffer needs 3 second delay before reading or writing
         # time.sleep sets serial to 0, DO NOT use 0 as a command on arduino side
