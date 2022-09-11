@@ -12,6 +12,7 @@ from KoalbyHumanoid.robot import Robot
 '''
 NEXT STEPS:
 '''
+#Hi Finnnnnnnnnnn
 
 ##Port Finder
 # import serial.tools.list_ports as ports
