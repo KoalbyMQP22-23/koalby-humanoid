@@ -3,7 +3,7 @@ from threading import Thread
 
 from Primitives.ReplayPrimitive import ReplayPrimitive
 
-sys.path.insert(0, 'home/pi/Documents/koalby-humanoid')
+sys.path.insert(0, 'poses/home/pi/Documents/koalby-humanoid')
 
 from KoalbyHumanoid.robot import Robot
 

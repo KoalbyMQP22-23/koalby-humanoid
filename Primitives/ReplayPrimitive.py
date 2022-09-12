@@ -1,5 +1,5 @@
 import csv
-from Primitives import KoalbyPrimitive
+from Primitives import KoalbyPrimitive, poses
 import time
 
 
@@ -22,7 +22,7 @@ class ReplayPrimitive(KoalbyPrimitive.Primitive):
         iterates through list of recorded poses of entire robot,
         holding each pose for defined pose time.
         """
-        with open(self.replayFilename) as f:
+        with open(poses.replayFilename) as f:
             csvRecordedPoses = [{k: int(v) for k, v in row.items()}
                                 for row in csv.DictReader(f, skipinitialspace=True)]  # parses selected csv file into list of poses
         for poseMotorPositionsDict in csvRecordedPoses:  # for each pose in the list of recorded poses
