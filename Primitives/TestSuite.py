@@ -1,14 +1,13 @@
 import time
 
-from KoalbyHumanoid.robot import Robot
+from KoalbyHumanoid.Robot import Robot
 from threading import Thread
 
-from Primitives.ArmMirror import ArmMirror
 from Primitives.Dance import Dance
 
 robot = Robot()
-dance2 = Dance()
-robot.primitives.append(dance2)
+dance = Dance()
+robot.primitives.append(dance)
 
 
 def update():
@@ -16,14 +15,14 @@ def update():
         robot.PrimitiveManagerUpdate()
 
 
-def arm_Follow():
+def arm_follow():
     while True:
-        dance2.armDance()
+        dance.arm_dance()
         time.sleep(1)
 
 
 t1 = Thread(target=update)
-t2 = Thread(target=arm_Follow)
+t2 = Thread(target=arm_follow)
 t1.start()
 t2.start()
 

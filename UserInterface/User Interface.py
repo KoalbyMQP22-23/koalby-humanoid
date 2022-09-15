@@ -7,7 +7,7 @@ from Primitives.ReplayPrimitive import ReplayPrimitive
 import time
 from threading import Thread
 from tkinter import *
-from KoalbyHumanoid.robot import Robot
+from KoalbyHumanoid.Robot import Robot
 
 sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 
@@ -27,7 +27,7 @@ def init():
     sets all primitives to inactive and turns off buttons
     """
     for prim in robot.primitives:
-        prim.notActive()
+        prim.not_active()
     robot.primitives.clear()
     allButtonsOff()
     time.sleep(0.5)  # Delay to prevent a serial timeout error
@@ -38,7 +38,7 @@ def init():
 def shutdown():
     """Shuts down the robot"""
     for prim in robot.primitives:
-        prim.notActive()
+        prim.not_active()
     robot.primitives.clear()
     allButtonsOff()
     time.sleep(0.5)  # Delay to prevent a serial timeout error

@@ -13,7 +13,7 @@ from ..utils.stoppablethread import StoppableThread, make_update_loop
 
 logger = logging.getLogger(__name__)
 
-#  add _primitive_manager = PrimitiveManager(self.motors) in robot.py
+#  add _primitive_manager = PrimitiveManager(self.motors) in Robot.py
 
 
 class Primitive(StoppableThread):

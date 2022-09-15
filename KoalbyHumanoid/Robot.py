@@ -1,8 +1,8 @@
 import sys
 from collections import defaultdict
 import ArduinoSerial
-import KoalbyHumanoid.config as config
-from KoalbyHumanoid.motor import Motor
+import KoalbyHumanoid.Config as config
+from KoalbyHumanoid.Motor import Motor
 
 sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 
@@ -74,7 +74,7 @@ class Robot(object):
 
         # If there is only 1 primitive in active list, return primitive's dictionary
         if len(self.primitives) == 1:
-            self.primitiveMotorDict = self.primitives[0].getMotorDict()
+            self.primitiveMotorDict = self.primitives[0].get_motor_dict()
             # print("Update")
             # print(self.primitiveMotorDict)
             self.updateMotors()  # send new dict to motors
@@ -84,7 +84,7 @@ class Robot(object):
         for primitive in self.primitives:
             # print("Get Dictionary")
             # print(primitive.getMotorDict())
-            primitiveDicts.append(primitive.getMotorDict())  # Add primitive dictionary to primitiveDicts
+            primitiveDicts.append(primitive.get_motor_dict())  # Add primitive dictionary to primitiveDicts
 
         # create new dictionary with 1 key value and a list of motor positions
         mergedDict = defaultdict(list)  # Create a default list dictionary empty.

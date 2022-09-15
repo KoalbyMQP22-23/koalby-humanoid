@@ -1,15 +1,12 @@
-import sys, os
-sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
+import sys
 from ikpy.chain import Chain
-from ikpy.urdf import URDF
 from ikpy.utils.geometry import rpy_matrix
 from ikpy.urdf.URDF import get_chain_from_joints
 from numpy import deg2rad, rad2deg, array, arctan2, sqrt
 import os
 import numpy as np
 
-import xml.etree.ElementTree as ET
-import itertools
+sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 
 
 class IKChain(Chain):
@@ -163,7 +160,7 @@ class IKChain(Chain):
         """ Convert from poppy representation to IKPY internal representation. """
         if len(joints) != len(self.motors):
             raise ValueError('Incompatible data, len(joints) should be {}!'.format(len(self.motors)))
-        #print("Final Check", joints)
+        # print("Final Check", joints)
         raw_joints = [int(float(j)) for j in joints]
         # raw_joints = [(j + m.offset) * (1 if m.direct else -1) for j, m in zip(joints, self.motors)]
 
@@ -229,6 +226,7 @@ class IKChain(Chain):
             no_position = False
             frame_target[:3, 3] = target_position
 
-        #print("Frame", frame_target)
+        # print("Frame", frame_target)
 
-        return self.inverse_kinematics_frame(target=frame_target, orientation_mode=orientation_mode, no_position=no_position, **kwargs)
+        return self.inverse_kinematics_frame(target=frame_target, orientation_mode=orientation_mode,
+                                             no_position=no_position, **kwargs)

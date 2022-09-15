@@ -6,29 +6,24 @@ Dance Primitive
 """
 import random
 import threading
-from threading import Thread
-import time
 
-from KoalbyHumanoid.config import motors
+from KoalbyHumanoid.Config import motors
 from Primitives import KoalbyPrimitive
 
-
-# must restart robot before playing back motion, or change the way prim manager operates (no while loop)
-robot.primitives.append(replay)
 
 class Dance(KoalbyPrimitive.Primitive):
 
     def __init__(self):
-        super().__init__()  # inheritance
+        super().__init__()  # inheritance  # why is this here?
         self.motorPositionsDict = {}
         self.isActive = False
 
-    def armDance(self):
+    def arm_dance(self):
         self.motorPositionsDict = {}  # Clear the dictionary
         for index in range(0, 8):  # Set depth to run in config file (0-4 is right arm motors)
-            motorID = motors[index][0]  # Get motor ID
-            motorPos = random.randrange(0, 100, 10)  # Generate random positions between 0 and 100
-            self.motorPositionsDict[motorID] = motorPos  # add position to dictionary
+            motor_id = motors[index][0]  # Get motor ID
+            motor_pos = random.randrange(0, 100, 10)  # Generate random positions between 0 and 100
+            self.motorPositionsDict[motor_id] = motor_pos  # add position to dictionary
 
     def change(self):
         if self.isActive:
@@ -36,12 +31,12 @@ class Dance(KoalbyPrimitive.Primitive):
         else:
             self.isActive = True
 
-    def setActive(self):
+    def set_active(self):
         self.isActive = True
 
-    def notActive(self):
+    def not_active(self):
         self.isActive = False
 
     def timer(self, duration):
-        timer = threading.Timer(duration, self.armDance())
+        timer = threading.Timer(duration, self.arm_dance())
         timer.start()  # after 'duration' seconds, 'removePrimitive' will be called

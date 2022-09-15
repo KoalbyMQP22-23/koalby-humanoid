@@ -1,9 +1,3 @@
-import time
-
-import ArduinoSerial
-
-# import config
-
 """The Motor class hold all information for an abstract motor on the physical robot. It is used to interface with the
 arduino which directly controls the motors"""
 
@@ -14,7 +8,6 @@ class Motor(object):
         self.motorID = _motorID
         self.angle_limit = angleLimit
         self.name = name
-
         self.arduino_serial = serial
 
     def getPosition(self):

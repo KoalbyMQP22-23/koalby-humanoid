@@ -16,7 +16,7 @@ class Idle(KoalbyPrimitive.Primitive):
                                    1: 50,
                                    0: 50}
 
-    def changePos(self):
+    def change_pos(self):
         self.motorPositionsDict = {3: 0,
                                    2: 0,
                                    1: 0,

@@ -3,9 +3,9 @@ from threading import Thread
 
 from Primitives.ReplayPrimitive import ReplayPrimitive
 
-sys.path.insert(0, 'poses/home/pi/Documents/koalby-humanoid')
+sys.path.insert(0, 'home/pi/Documents/koalby-humanoid')
 
-from KoalbyHumanoid.robot import Robot
+from KoalbyHumanoid.Robot import Robot
 
 """A simple test suite to check pi -> arduino communication and motor control"""
 
@@ -21,7 +21,7 @@ replay.isActive = True
 robot.primitives.append(replay)
 
 
-def Play():
+def play():
     while True:
         replay.replayFilename = str(input("Input saved file name to play back: "))
         replay.poseTime = float(input("Enter pose time (seconds): ")) + 0.005
@@ -34,13 +34,13 @@ def Play():
             replay.playMotion()
 
 
-def Update():
+def update():
     while True:
         robot.PrimitiveManagerUpdate()
 
 
-t1 = Thread(target=Update)
-t2 = Thread(target=Play)
+t1 = Thread(target=update)
+t2 = Thread(target=play)
 t1.start()
 t2.start()
 

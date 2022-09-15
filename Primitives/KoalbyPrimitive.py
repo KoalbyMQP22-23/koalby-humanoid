@@ -5,7 +5,6 @@
 # also a remove primitive function
 # timing method
 import threading
-from KoalbyHumanoid import config
 
 
 class Primitive:
@@ -15,7 +14,7 @@ class Primitive:
         self.sensorDict = {}  # dictionary holding sensorIDs and their relevant data
         self.isActive = False
 
-    def getMotorDict(self):
+    def get_motor_dict(self):
         return self.motorPositionsDict
 
     def timer(self, duration):
