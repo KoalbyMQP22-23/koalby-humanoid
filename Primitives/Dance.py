@@ -13,6 +13,9 @@ from KoalbyHumanoid.config import motors
 from Primitives import KoalbyPrimitive
 
 
+# must restart robot before playing back motion, or change the way prim manager operates (no while loop)
+robot.primitives.append(replay)
+
 class Dance(KoalbyPrimitive.Primitive):
 
     def __init__(self):

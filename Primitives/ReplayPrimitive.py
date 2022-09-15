@@ -1,6 +1,8 @@
 import csv
-from Primitives import KoalbyPrimitive, poses
 import time
+
+from Primitives import KoalbyPrimitive
+from Primitives import poses
 
 
 class ReplayPrimitive(KoalbyPrimitive.Primitive):
@@ -22,9 +24,10 @@ class ReplayPrimitive(KoalbyPrimitive.Primitive):
         iterates through list of recorded poses of entire robot,
         holding each pose for defined pose time.
         """
-        with open(poses.replayFilename) as f:
+        with open(self.replayFilename) as f:
             csvRecordedPoses = [{k: int(v) for k, v in row.items()}
-                                for row in csv.DictReader(f, skipinitialspace=True)]  # parses selected csv file into list of poses
+                                for row in
+                                csv.DictReader(f, skipinitialspace=True)]  # parses selected csv file into list of poses
         for poseMotorPositionsDict in csvRecordedPoses:  # for each pose in the list of recorded poses
             if not self.isActive:
                 break
@@ -46,8 +49,10 @@ class ReplayPrimitive(KoalbyPrimitive.Primitive):
             if self.continueSelect != 0:
                 time.sleep(0.1)  # delay to allow consistent reading of first motor in first pose
                 for m in self.Motors:  # for each motor in Motors list
-                    poseMotorPositionsDict[m.motorID] = m.getPosition()  # add the motor ID as key and motor position as value
-                self.recordedPoses.append(poseMotorPositionsDict)  # add dictionary of current robot pose to list of recorded poses
+                    poseMotorPositionsDict[
+                        m.motorID] = m.getPosition()  # add the motor ID as key and motor position as value
+                self.recordedPoses.append(
+                    poseMotorPositionsDict)  # add dictionary of current robot pose to list of recorded poses
             self.continueSelect = 0
             time.sleep(0.01)  # comms buffer delay
         # write dictionary of recorded poses to csv file

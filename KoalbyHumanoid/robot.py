@@ -1,3 +1,11 @@
+import sys
+from collections import defaultdict
+import ArduinoSerial
+import KoalbyHumanoid.config as config
+from KoalbyHumanoid.motor import Motor
+
+sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
+
 """
 To be used for robot instantiation.
 Possible functionalities:
@@ -6,15 +14,6 @@ Possible functionalities:
     - handle sensor layout set up
     - handle full robot-wide commands such as "shutdown"
 """
-import sys, os
-
-sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
-import ArduinoSerial
-from KoalbyHumanoid.motor import Motor
-from Kinematics.IK import IKChain
-import KoalbyHumanoid.config as config
-from collections import defaultdict
-from threading import Thread
 
 
 class Robot(object):
@@ -42,15 +41,9 @@ class Robot(object):
                                                        tip=[0, 0.18, 0])
     """
 
-    def initialize(self):
-        """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
-        cmd = "1,"
-        self.arduino_serial.send_command(cmd)
-
-    def shutdown(self):
-        """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
-        cmd = "100,"
-        self.arduino_serial.send_command(cmd)
+    def powerSwitch(self, command):
+        """sends command to the arduino to shut down all motors on the entire robot and turn their LEDs red"""
+        self.arduino_serial.send_command(command)
 
     def motorsInit(self):
         motors = list()
@@ -61,35 +54,36 @@ class Robot(object):
         return motors
 
     def updateMotors(self):
-        '''
+        """
         Take the primitiveMotorDict and send the motor values to the robot
-        '''
+        """
         for key, value in self.primitiveMotorDict.items():
-            if self.primitiveMotorDict[key] == "":  # Ensures the key's value is not an empty string and makes it 0 if it is
+            if self.primitiveMotorDict[
+                key] == "":  # Ensures the key's value is not an empty string and makes it 0 if it is
                 self.primitiveMotorDict[key] = 0
             for motor in self.motors:
                 if str(motor.motorID) == str(key):
                     motor.setPositionTime(self.primitiveMotorDict[key], self.poseTimeMillis)
 
     def PrimitiveManagerUpdate(self):
-        '''
+        """
         Take list of active primitives which will come from UI
         Look at motor Dict from primitives.
         All primitive update functions need to have a dict of motor IDs and setPositions
-        '''
+        """
 
         # If there is only 1 primitive in active list, return primitive's dictionary
         if len(self.primitives) == 1:
             self.primitiveMotorDict = self.primitives[0].getMotorDict()
-            #print("Update")
-            #print(self.primitiveMotorDict)
+            # print("Update")
+            # print(self.primitiveMotorDict)
             self.updateMotors()  # send new dict to motors
             return self.primitiveMotorDict
 
         primitiveDicts = []
         for primitive in self.primitives:
-            #print("Get Dictionary")
-            #print(primitive.getMotorDict())
+            # print("Get Dictionary")
+            # print(primitive.getMotorDict())
             primitiveDicts.append(primitive.getMotorDict())  # Add primitive dictionary to primitiveDicts
 
         # create new dictionary with 1 key value and a list of motor positions
@@ -119,13 +113,8 @@ class Robot(object):
             setattr(Robot, config.motorGroups[i][0], group)
             i += 1
 
-    def close(self):
-        # Can add other stuff here if we need to handle incomplete statement sending
-        self.shutdown()
-
     def addPrimitive(self, primitive):
         self.primitives.append(primitive)
 
     def removePrimitive(self, primitive):
         self.primitives.remove(primitive)
-

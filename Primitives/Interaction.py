@@ -34,7 +34,7 @@ def ArmMirrorOld():
 
     # Close properly the object when finished
     except KeyboardInterrupt:
-        koalby.close()
+        koalby.powerSwitch(100)
 
 
 def ArmMirrorSimpleOld():
@@ -48,7 +48,7 @@ def ArmMirrorSimpleOld():
 
             koalby.l_shoulder_y.setPositionPos(r_pos)
     except KeyboardInterrupt:
-        koalby.close()
+        koalby.powerSwitch(100)
 
 
 # Ian Code. Temporary putting here
@@ -74,7 +74,7 @@ def arm_follow_test():
 
     # Close properly the object when finished
     except KeyboardInterrupt:
-        koalby.close()
+        koalby.powerSwitch(100)
 
 
 def follow_hand(koalby, delta):
@@ -112,4 +112,4 @@ def arm_replay_test():
 
     # Close properly the object when finished
     except KeyboardInterrupt:
-        koalby.close()
+        koalby.powerSwitch(100)

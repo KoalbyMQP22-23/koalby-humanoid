@@ -4,11 +4,12 @@ from Primitives.ArmMirror import ArmMirror
 from Primitives.Dance import Dance
 from Primitives.ReplayPrimitive import ReplayPrimitive
 
-sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 import time
 from threading import Thread
 from tkinter import *
 from KoalbyHumanoid.robot import Robot
+
+sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 
 # Start Script
 print("Start User Interface")
@@ -22,22 +23,26 @@ armMirror = ArmMirror(robot.motors[0:3], robot.motors[4:7])  # Arm Mirror create
 
 # Initialize the Robot Command
 def init():
-    for prim in robot.primitives:  # Set all primitives in robot list to not active
+    """
+    sets all primitives to inactive and turns off buttons
+    """
+    for prim in robot.primitives:
         prim.notActive()
-    robot.primitives.clear()  # Clear the robot list of primitives
-    allButtonsOff()  # Set all buttons to the color red
-    time.sleep(0.5)  # Delay so the primitive manager can have time to stop sending commands to prevent a serial timeout error
-    robot.initialize()
+    robot.primitives.clear()
+    allButtonsOff()
+    time.sleep(0.5)  # Delay to prevent a serial timeout error
+    robot.powerSwitch(1)
 
 
 # Shutdown the robot (Turn off all motors)
 def shutdown():
-    for prim in robot.primitives:  # Set all primitives in robot list to not active
+    """Shuts down the robot"""
+    for prim in robot.primitives:
         prim.notActive()
-    robot.primitives.clear()  # Clear the robot list of primitives
-    allButtonsOff()  # Set all buttons to the color red
-    time.sleep(0.5)  # Delay so the primitive manager can have time to stop sending commands to prevent a serial timeout error
-    robot.shutdown()
+    robot.primitives.clear()
+    allButtonsOff()
+    time.sleep(0.5)  # Delay to prevent a serial timeout error
+    robot.powerSwitch(100)
 
 
 # Primitive Manager Thread
@@ -169,7 +174,7 @@ def extend():
 
 def wave():
     b8.config(bg="green")
-    replaySetup(0.3, 0.5, "../Primitives/wave")
+    replaySetup(0.3, 0.5, "../Primitives/poses/wave")
 
 
 # User Interface

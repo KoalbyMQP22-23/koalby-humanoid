@@ -61,7 +61,7 @@ class Chain(namedtuple('Chain', ('links', 'base', 'tool'))):
 
         tr = self.base.copy()
 
-        l = []
+        l = [] #name this better
 
         for link, theta in zip(self.links, q):
             tr = tr * link.get_transformation_matrix(theta)
