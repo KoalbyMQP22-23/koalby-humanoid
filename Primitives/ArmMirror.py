@@ -21,17 +21,17 @@ class ArmMirror(KoalbyPrimitive.Primitive):
     def arm_mirror(self):
         master_positions = list()
         for motor in self.masterArm:  # log motor positions of controller arm
-            master_positions.append(motor.getPosition)
+            master_positions.append(motor.get_position)
         for motor in self.followerArm:  # set motors in follower arm to positions of controller arm
             self.motorPositionsDict[motor.motorID] = master_positions[0]  # add motor pos to motor dict sent to robot
             master_positions.pop(0)
 
     def set_active(self):
         for motor in self.masterArm:  # set desired controller arm to be compliant for manual control
-            motor.compliantOnOff(1)
+            motor.compliant_toggle(1)
         self.isActive = True
 
     def not_active(self):
         for motor in self.masterArm:  # set desired controller arm to be compliant for manual control
-            motor.compliantOnOff(0)
+            motor.compliant_toggle(0)
         self.isActive = False

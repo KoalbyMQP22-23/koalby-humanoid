@@ -45,6 +45,7 @@ class Chain(namedtuple('Chain', ('links', 'base', 'tool'))):
     :param tool: the end tool homogeneous transformation matrix
 
     """
+
     def __new__(cls, links, base=numpy.identity(4), tool=numpy.identity(4)):
         return super(Chain, cls).__new__(cls, links, base, tool)
 
@@ -61,7 +62,7 @@ class Chain(namedtuple('Chain', ('links', 'base', 'tool'))):
 
         tr = self.base.copy()
 
-        l = [] #name this better
+        l = []  # name this better
 
         for link, theta in zip(self.links, q):
             tr = tr * link.get_transformation_matrix(theta)

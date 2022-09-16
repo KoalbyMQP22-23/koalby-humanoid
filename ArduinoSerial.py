@@ -18,13 +18,14 @@ if __name__ == '__main__':
 class ArduinoSerial(object):
 
     def __init__(self):
-        self.ser = serial.Serial('/dev/cu.usbserial-14510', 115200, timeout=1)  # change this to get correct port
+        self.ser = serial.Serial('/dev/cu.usbserial-14610', 115200, timeout=1)  # change this to get correct port
         self.ser.reset_input_buffer()
         time.sleep(3)  # serial buffer needs 3 second delay before reading or writing
         # time.sleep sets serial to 0, DO NOT use 0 as a command on arduino side
 
     def send_command(self, command):  # sends a command to the arduino from the RasPi
-        message = str.encode(command + '\r\n')
+        message = str.encode(command)
+        # message = str.encode(command + '\r\n')
         self.ser.write(message)
 
     def read_command(self):  # reads a command to the arduino from the RasPi

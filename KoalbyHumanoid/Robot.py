@@ -23,8 +23,8 @@ class Robot(object):
         self.primitives = []
         self.primitiveMotorDict = {}
         self.poseTimeMillis = 1000
-        self.motors = self.motorsInit()
-        self.motorGroupsInit()
+        self.motors = self.motors_init()
+        self.motor_groups_init()
         self.arduino_serial.send_command('1,')  # This initializes the robot with all the initial motor positions
         print("Robot Created and Initialized")
         # = Thread(target=self.primiti)
@@ -41,11 +41,11 @@ class Robot(object):
                                                        tip=[0, 0.18, 0])
     """
 
-    def powerSwitch(self, command):
+    def power_switch(self, command):
         """sends command to the arduino to shut down all motors on the entire robot and turn their LEDs red"""
         self.arduino_serial.send_command(command)
 
-    def motorsInit(self):
+    def motors_init(self):
         motors = list()
         for motorConfig in config.motors:
             motor = Motor(motorConfig[0], motorConfig[1], motorConfig[3], self.arduino_serial)
@@ -53,7 +53,7 @@ class Robot(object):
             motors.append(motor)
         return motors
 
-    def updateMotors(self):
+    def update_motors(self):
         """
         Take the primitiveMotorDict and send the motor values to the robot
         """
@@ -63,9 +63,9 @@ class Robot(object):
                 self.primitiveMotorDict[key] = 0
             for motor in self.motors:
                 if str(motor.motorID) == str(key):
-                    motor.setPositionTime(self.primitiveMotorDict[key], self.poseTimeMillis)
+                    motor.set_position_time(self.primitiveMotorDict[key], self.poseTimeMillis)
 
-    def PrimitiveManagerUpdate(self):
+    def primitive_manager_update(self):
         """
         Take list of active primitives which will come from UI
         Look at motor Dict from primitives.
@@ -77,7 +77,7 @@ class Robot(object):
             self.primitiveMotorDict = self.primitives[0].get_motor_dict()
             # print("Update")
             # print(self.primitiveMotorDict)
-            self.updateMotors()  # send new dict to motors
+            self.update_motors()  # send new dict to motors
             return self.primitiveMotorDict
 
         primitiveDicts = []
@@ -87,23 +87,23 @@ class Robot(object):
             primitiveDicts.append(primitive.get_motor_dict())  # Add primitive dictionary to primitiveDicts
 
         # create new dictionary with 1 key value and a list of motor positions
-        mergedDict = defaultdict(list)  # Create a default list dictionary empty.
+        merged_dict = defaultdict(list)  # Create a default list dictionary empty.
         for dict in primitiveDicts:
             for key, value in dict.items():
-                mergedDict[key].append(value)
+                merged_dict[key].append(value)
 
         # for each key average motor positions and return key value with the average value
-        for key, value in mergedDict.items():
-            finalMotorValue = 0
-            for motorValue in mergedDict[key]:
-                finalMotorValue = motorValue + finalMotorValue
-            self.primitiveMotorDict[key] = finalMotorValue / len(mergedDict[key])  # average values
+        for key, value in merged_dict.items():
+            final_motor_value = 0
+            for motorValue in merged_dict[key]:
+                final_motor_value = motorValue + final_motor_value
+            self.primitiveMotorDict[key] = final_motor_value / len(merged_dict[key])  # average values
 
-        self.updateMotors()  # send new dict to motors
+        self.update_motors()  # send new dict to motors
 
         return self.primitiveMotorDict
 
-    def motorGroupsInit(self):
+    def motor_groups_init(self):
         i = 0
         for row in config.motorGroups:
             group = list()
@@ -113,8 +113,8 @@ class Robot(object):
             setattr(Robot, config.motorGroups[i][0], group)
             i += 1
 
-    def addPrimitive(self, primitive):
+    def add_primitive(self, primitive):
         self.primitives.append(primitive)
 
-    def removePrimitive(self, primitive):
+    def remove_primitive(self, primitive):
         self.primitives.remove(primitive)

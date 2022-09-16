@@ -40,7 +40,7 @@ class ReplayPrimitive(KoalbyPrimitive.Primitive):
         """
         self.poseNum = int(input("Input number of poses desired:"))
         for m in self.Motors:
-            m.compliantOnOff(1)  # sets all motors in the robot to be compliant for moving to poses
+            m.compliant_toggle(1)  # sets all motors in the robot to be compliant for moving to poses
             time.sleep(0.05)  # need delay for comm time
         for poseIndex in range(self.poseNum):  # for each pose from 0 to desired number of poses
             pose_motor_positions_dict = {}
@@ -49,7 +49,7 @@ class ReplayPrimitive(KoalbyPrimitive.Primitive):
                 time.sleep(0.1)  # delay to allow consistent reading of first motor in first pose
                 for m in self.Motors:  # for each motor in Motors list
                     pose_motor_positions_dict[
-                        m.motorID] = m.getPosition()  # add the motor ID as key and motor position as value
+                        m.motorID] = m.get_position()  # add the motor ID as key and motor position as value
                 self.recordedPoses.append(
                     pose_motor_positions_dict)  # add dictionary of current robot pose to list of recorded poses
             self.continueSelect = 0
@@ -62,7 +62,7 @@ class ReplayPrimitive(KoalbyPrimitive.Primitive):
         dict_writer.writerows(self.recordedPoses)
         motion_file.close()
         for m in self.Motors:
-            m.compliantOnOff(0)  # set motors back to non-compliant for use elsewhere
+            m.compliant_toggle(0)  # set motors back to non-compliant for use elsewhere
             time.sleep(0.05)  # need delay for comm time
 
     def change(self):

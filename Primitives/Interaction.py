@@ -21,7 +21,7 @@ robot = Robot.Robot()
 
 def arm_mirror_old():
     for m in robot.r_arm:
-        m.torqueOnOff(0)
+        m.torque_toggle(0)
 
     try:
         while True:
@@ -29,25 +29,25 @@ def arm_mirror_old():
             print("Right arm: ", r_arm_angles)
             for m, pos in list(zip(robot.l_arm_chain.motors, r_arm_angles)):
                 if 'l_' in m.name:
-                    m.setPositionPos(pos)
+                    m.set_position_pos(pos)
             time.sleep(1)
 
     # Close properly the object when finished
     except KeyboardInterrupt:
-        robot.powerSwitch(100)
+        robot.power_switch(100)
 
 
 def arm_mirror_simple_old():
     for m in robot.r_arm:
-        m.torqueOnOff(0)
+        m.torque_toggle(0)
     try:
         while True:
-            r_pos = robot.r_shoulder_y.getPosition()
+            r_pos = robot.r_shoulder_y.get_position()
             # print(r_pos)
 
-            robot.l_shoulder_y.setPositionPos(r_pos)
+            robot.l_shoulder_y.set_position_pos(r_pos)
     except KeyboardInterrupt:
-        robot.powerSwitch(100)
+        robot.power_switch(100)
 
 
 # Ian Code. Temporary putting here
@@ -57,7 +57,7 @@ def arm_follow_test():
         m.torqueOnOff(1)'''
 
     for m in robot.r_arm:
-        m.torqueOnOff(0)
+        m.torque_toggle(0)
 
     # The torso itself must not be compliant
     '''for m in robot.torso:
@@ -71,7 +71,7 @@ def arm_follow_test():
 
     # Close properly the object when finished
     except KeyboardInterrupt:
-        robot.powerSwitch(100)
+        robot.power_switch(100)
 
 
 def follow_hand(delta):
@@ -85,7 +85,7 @@ def arm_replay_test():
         while True:
             # Torque off
             for m in robot.r_arm:
-                m.torqueOnOff(0)
+                m.torque_toggle(0)
             print("Torque off. Position Arm now")
             time.sleep(5)
 
@@ -95,7 +95,7 @@ def arm_replay_test():
 
             # Torque on
             for m in robot.r_arm:
-                m.torqueOnOff(1)
+                m.torque_toggle(1)
 
             print("Torque on. Moving soon")
             time.sleep(1)
@@ -107,4 +107,4 @@ def arm_replay_test():
 
     # Close properly the object when finished
     except KeyboardInterrupt:
-        robot.powerSwitch(100)
+        robot.power_switch(100)

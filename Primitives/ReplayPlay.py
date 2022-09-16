@@ -34,7 +34,7 @@ robot.primitives.append(replay)
 
 def play():
     while True:
-        replay.playMotion()
+        replay.play_motion()
         replay.poseTime = float(input("Enter pose time (seconds):")) + 0.005
         replay.poseDelay = float(input("Enter delay between poses (seconds):"))
         robot.poseTimeMillis = int((replay.poseTime - 0.005) * 1000)
@@ -43,7 +43,7 @@ def play():
 
 def update():
     while True:
-        robot.PrimitiveManagerUpdate()
+        robot.primitive_manager_update()
 
 
 t1 = Thread(target=update)

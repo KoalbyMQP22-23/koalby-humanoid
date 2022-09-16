@@ -23,15 +23,15 @@ b10 = Button(window, text="Shake Toggle", bg="red", activeforeground="black", ac
 
 # Set button locations
 b1.place(x=0, y=0)
-b2.place(x=0, y=80)
+b2.place(x=0, y=100)
 b3.place(x=150, y=0)
-b4.place(x=150, y=80)
+b4.place(x=150, y=100)
 b5.place(x=300, y=0)
-b6.place(x=300, y=80)
+b6.place(x=300, y=100)
 b7.place(x=450, y=0)
-b8.place(x=450, y=80)
+b8.place(x=450, y=100)
 b9.place(x=600, y=0)
-b10.place(x=600, y=80)
+b10.place(x=600, y=100)
 
 while True:
     window.update()

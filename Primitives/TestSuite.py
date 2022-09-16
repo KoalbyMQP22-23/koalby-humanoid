@@ -12,7 +12,7 @@ robot.primitives.append(dance)
 
 def update():
     while True:
-        robot.PrimitiveManagerUpdate()
+        robot.primitive_manager_update()
 
 
 def arm_follow():

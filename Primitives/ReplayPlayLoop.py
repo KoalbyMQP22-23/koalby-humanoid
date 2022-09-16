@@ -36,7 +36,7 @@ def play():
 
 def update():
     while True:
-        robot.PrimitiveManagerUpdate()
+        robot.primitive_manager_update()
 
 
 t1 = Thread(target=update)

@@ -50,7 +50,7 @@ class IKChain(Chain):
     @property
     def joints_position(self):
         """ Returns the joints position of all motors in the chain (in degrees). """
-        return [m.getPosition() for m in self.motors]
+        return [m.get_position() for m in self.motors]
 
     # Transformation matrix M:
     # [[ Rx.x, Ry.x, Rz.x, T.x ],      R = M[:3][:3] is the rotation matrix.
@@ -153,7 +153,7 @@ class IKChain(Chain):
         last = self.motors[-1]
         for m, pos in list(zip(self.motors, joints)):
             if 'r_' in m.name:
-                m.setPositionPos(pos)
+                m.set_position_pos(pos)
             # m.goto_position(pos, duration, wait=False if m != last else wait)
 
     def convert_to_ik_angles(self, joints):

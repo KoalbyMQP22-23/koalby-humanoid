@@ -18,7 +18,14 @@ class Primitive:
         return self.motorPositionsDict
 
     def timer(self, duration):
-        timer = threading.Timer(duration, '''Function''')
+        timer = threading.Timer(duration)
         timer.start()  # after 'duration' seconds, 'removePrimitive' will be called
+
+    def set_active(self):
+        self.isActive = True
+
+    def not_active(self):
+        self.isActive = False
+
 
 
