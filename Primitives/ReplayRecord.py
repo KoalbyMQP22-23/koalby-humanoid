@@ -8,5 +8,6 @@ from KoalbyHumanoid.robot import Robot
 
 robot = Robot()
 replay = ReplayPrimitive(robot.motors)
+# replay.recordMotionKinematics()
 replay.recordMotion()
 

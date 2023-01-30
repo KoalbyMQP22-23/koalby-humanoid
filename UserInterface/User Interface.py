@@ -13,7 +13,10 @@ from KoalbyHumanoid.robot import Robot
 # Start Script
 print("Start User Interface")
 
-b1, b2, b3, b4, b5, b6, b7, b8, b9, b10 = Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button()  # Create Global buttons so all functions can use them
+# b1, b2, b3, b4, b5, b6, b7, b8, b9, b10 = Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button()  # Create Global buttons so all functions can use them
+
+window = Tk()
+bi, b2, b3, b5, b6, b7, b8, b9, b10 = Button(window), Button(window), Button(window), Button(window), Button(window), Button(window), Button(window), Button(window), Button(window),
 robot = Robot()
 dance = Dance()
 replay = ReplayPrimitive(robot.motors)
@@ -178,7 +181,7 @@ def UI():
     global b1, b2, b3, b4, b5, b6, b7, b8, b9, b10  # Global Variable for each button so other methods can control button fields.
 
     # Create the Window Tkinter object
-    window = Tk()
+    # window = Tk()
     window.geometry("800x500")
 
     # Make the buttons
