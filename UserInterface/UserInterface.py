@@ -13,7 +13,11 @@ sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 # Start Script
 print("Start User Interface")
 
-b1, b2, b3, b5, b6, b7, b8, b9, b10 = Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button()  # Create Global buttons so all functions can use them
+# b1, b2, b3, b5, b6, b7, b8, b9, b10 = Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button()  # Create Global buttons so all functions can use them
+# b1, b2, b3, b5, b6, b7, b8, b9, b10
+window = Tk()
+b1, b2, b3, b5, b6, b7, b8, b9, b10 = Button(window), Button(window), Button(window), Button(window), Button(window), Button(window), Button(window), Button(window), Button(window)  # Create Global buttons so all functions can use them
+
 robot = Robot()
 dance = Dance()
 replay = ReplayPrimitive(robot.motors)
@@ -29,7 +33,7 @@ def init():
     for prim in robot.primitives:
         prim.not_active()
     robot.primitives.clear()
-    all_buttons_off()
+    # all_buttons_off()
     time.sleep(0.5)  # Delay to prevent a serial timeout error
     robot.power_switch('1')
 
@@ -40,7 +44,7 @@ def shutdown():
     for prim in robot.primitives:
         prim.not_active()
     robot.primitives.clear()
-    all_buttons_off()
+    # all_buttons_off()
     time.sleep(0.5)  # Delay to prevent a serial timeout error
     robot.power_switch('100')
     print("Robot Shutdown")
@@ -74,11 +78,11 @@ def dance_setup():
     if dance.isActive:
         robot.remove_primitive(dance)
         dance.isActive = False
-        all_buttons_off()
+        # all_buttons_off()
     else:
         robot.add_primitive(dance)
         dance.isActive = True
-        b3.config(bg="green")
+        # b3.config(bg="green")
 
 
 # Start Dance Thread
@@ -113,6 +117,7 @@ armMirrorT.start()
 '''
 
 
+
 # Replay Thread
 def replay_meth():
     print("Replay Thread Started")
@@ -130,12 +135,13 @@ def replay_setup(pos_time, pos_delay, filename):
 
     if replay.isActive:
         replay.isActive = False
-        all_buttons_off()  # Turn buttons red
+        # all_buttons_off()  # Turn buttons red
         robot.remove_primitive(replay)  # Remove primitive from robot list
 
     else:
         replay.isActive = True
         robot.add_primitive(replay)
+
 
 
 # Start Replay Thread
@@ -150,7 +156,7 @@ Tkinter library does not allow functions in the button command to pass fields.
 
 # Clap 0.2 0.1, Dab 0.1 0, Macerena 0.5 0.2, Shake 0.2 0 , Extend 0.5 0, Wave 0.3 0
 def clap():
-    b5.config(bg="green")
+    b5.config(bg="green") #makes it stay green
     replay_setup(0.5, 0.5, "../Primitives/poses/clapCycle")
 
 
@@ -176,21 +182,21 @@ def extend():
 
 def wave():
     print("in wave")
-    b8.config(bg="green")
+    # b8.config(bg="green")
     replay_setup(0.3, 0.5, "../Primitives/poses/wave")
 
 
-def all_buttons_off():
-    global b1, b2, b3, b5, b6, b7, b8, b9, b10
-    b1.config(bg="red")
-    b2.config(bg="red")
-    b3.config(bg="red")
-    b5.config(bg="red")
-    b6.config(bg="red")
-    b7.config(bg="red")
-    b8.config(bg="red")
-    b9.config(bg="red")
-    b10.config(bg="red")
+# def all_buttons_off():
+#     global b1, b2, b3, b5, b6, b7, b8, b9, b10
+#     b1.config(bg="red")
+#     b2.config(bg="red")
+#     b3.config(bg="red")
+#     b5.config(bg="red")
+#     b6.config(bg="red")
+#     b7.config(bg="red")
+#     b8.config(bg="red")
+#     b9.config(bg="red")
+#     b10.config(bg="red")
 
 
 # Start UI Thread
@@ -207,7 +213,6 @@ def ui():
     # Global Variable for each button so other methods can control button fields.
 
     # Create the Window Tkinter object
-    window = Tk()
     window.geometry("800x500")
 
     # Make the buttons
@@ -217,7 +222,7 @@ def ui():
                 padx=25, pady=25)
     b3 = Button(window, text="Dance Toggle", command=dance_setup, bg="red", activeforeground="black",
                 activebackground="green", padx=25, pady=25)
-    # b4 = Button(window, text="Mirror Toggle", command=armMirrorSetup, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
+    # b4 = Button(root, text="Mirror Toggle", command=armMirrorSetup, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
     b5 = Button(window, text="Clap Toggle", command=clap, bg="red", activeforeground="black", activebackground="green",
                 padx=25, pady=25)
     b6 = Button(window, text="Dab Toggle", command=dab, bg="red", activeforeground="black", activebackground="green",
@@ -231,21 +236,22 @@ def ui():
     b10 = Button(window, text="Shake Toggle", command=shake, bg="red", activeforeground="black",
                  activebackground="green", padx=25, pady=25)
 
+
     # Set button locations
     b1.place(x=0, y=0)
-    b2.place(x=0, y=80)
+    b2.place(x=0, y=100)
     b3.place(x=150, y=0)
-    # b4.place(x=150, y=80)
+    # b4.place(x=150, y=100)
     b5.place(x=300, y=0)
-    b6.place(x=300, y=80)
+    b6.place(x=300, y=100)
     b7.place(x=450, y=0)
-    b8.place(x=450, y=80)
+    b8.place(x=450, y=100)
     b9.place(x=600, y=0)
-    b10.place(x=600, y=80)
+    b10.place(x=600, y=100)
 
     while True:
         window.update()
-        # window.update_idletasks()
+        window.update_idletasks()
 
 
 ui()

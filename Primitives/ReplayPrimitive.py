@@ -47,9 +47,9 @@ class ReplayPrimitive(KoalbyPrimitive.Primitive):
             self.continueSelect = int(input("Type 2 to record to next pose:"))  # wait for user to input "1" in console
             if self.continueSelect != 0:
                 time.sleep(0.1)  # delay to allow consistent reading of first motor in first pose
-                for m in self.Motors:  # for each motor in Motors list
-                    pose_motor_positions_dict[
-                        m.motorID] = m.get_position()  # add the motor ID as key and motor position as value
+                for m in self.Motors:
+                    pose_motor_positions_dict[m.motorID] = m.get_position()
+                    # add the motor ID as key and motor position as value
                 self.recordedPoses.append(
                     pose_motor_positions_dict)  # add dictionary of current robot pose to list of recorded poses
             self.continueSelect = 0

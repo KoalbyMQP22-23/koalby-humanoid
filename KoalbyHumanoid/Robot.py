@@ -1,11 +1,3 @@
-import sys
-from collections import defaultdict
-import ArduinoSerial
-import KoalbyHumanoid.Config as config
-from KoalbyHumanoid.Motor import Motor
-
-sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
-
 """
 To be used for robot instantiation.
 Possible functionalities:
@@ -14,6 +6,13 @@ Possible functionalities:
     - handle sensor layout set up
     - handle full robot-wide commands such as "shutdown"
 """
+import sys
+import ArduinoSerial
+from KoalbyHumanoid.Motor import Motor
+import KoalbyHumanoid.Config as config
+from collections import defaultdict
+
+sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 
 
 class Robot(object):
@@ -41,40 +40,49 @@ class Robot(object):
                                                        tip=[0, 0.18, 0])
     """
 
-    def power_switch(self, command):
-        """sends command to the arduino to shut down all motors on the entire robot and turn their LEDs red"""
-        self.arduino_serial.send_command(command)
+    def initialize(self):
+        """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
+        cmd = "1,"
+        self.arduino_serial.send_command(cmd)
+
+    def shutdown(self):
+        """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
+        cmd = "100,"
+        self.arduino_serial.send_command(cmd)
 
     def motors_init(self):
         motors = list()
         for motorConfig in config.motors:
+            #               motorID        angleLimit         name              serial
             motor = Motor(motorConfig[0], motorConfig[1], motorConfig[3], self.arduino_serial)
             setattr(Robot, motorConfig[3], motor)
             motors.append(motor)
         return motors
 
     def update_motors(self):
-        """
+        '''
         Take the primitiveMotorDict and send the motor values to the robot
-        """
+        '''
         for key, value in self.primitiveMotorDict.items():
-            if self.primitiveMotorDict[
-                key] == "":  # Ensures the key's value is not an empty string and makes it 0 if it is
+            if self.primitiveMotorDict[key] == "":
+                # Ensures the key's value is not an empty string and makes it 0 if it is
                 self.primitiveMotorDict[key] = 0
             for motor in self.motors:
                 if str(motor.motorID) == str(key):
+                    #                               position                        time
+                    # every position in here is one less
                     motor.set_position_time(self.primitiveMotorDict[key], self.poseTimeMillis)
 
     def primitive_manager_update(self):
-        """
+        '''
         Take list of active primitives which will come from UI
         Look at motor Dict from primitives.
         All primitive update functions need to have a dict of motor IDs and setPositions
-        """
+        '''
 
         # If there is only 1 primitive in active list, return primitive's dictionary
         if len(self.primitives) == 1:
-            self.primitiveMotorDict = self.primitives[0].get_motor_dict()
+            self.primitiveMotorDict = self.primitives[0].motorPositionsDict
             # print("Update")
             # print(self.primitiveMotorDict)
             self.update_motors()  # send new dict to motors
@@ -84,20 +92,20 @@ class Robot(object):
         for primitive in self.primitives:
             # print("Get Dictionary")
             # print(primitive.getMotorDict())
-            primitiveDicts.append(primitive.get_motor_dict())  # Add primitive dictionary to primitiveDicts
+            primitiveDicts.append(primitive.getMotorDict())  # Add primitive dictionary to primitiveDicts
 
         # create new dictionary with 1 key value and a list of motor positions
-        merged_dict = defaultdict(list)  # Create a default list dictionary empty.
+        mergedDict = defaultdict(list)  # Create a default list dictionary empty.
         for dict in primitiveDicts:
             for key, value in dict.items():
-                merged_dict[key].append(value)
+                mergedDict[key].append(value)
 
         # for each key average motor positions and return key value with the average value
-        for key, value in merged_dict.items():
-            final_motor_value = 0
-            for motorValue in merged_dict[key]:
-                final_motor_value = motorValue + final_motor_value
-            self.primitiveMotorDict[key] = final_motor_value / len(merged_dict[key])  # average values
+        for key, value in mergedDict.items():
+            finalMotorValue = 0
+            for motorValue in mergedDict[key]:
+                finalMotorValue = motorValue + finalMotorValue
+            self.primitiveMotorDict[key] = finalMotorValue / len(mergedDict[key])  # average values
 
         self.update_motors()  # send new dict to motors
 
@@ -112,6 +120,10 @@ class Robot(object):
                 group.append(motor)
             setattr(Robot, config.motorGroups[i][0], group)
             i += 1
+
+    def close(self):
+        # Can add other stuff here if we need to handle incomplete statement sending
+        self.shutdown()
 
     def add_primitive(self, primitive):
         self.primitives.append(primitive)

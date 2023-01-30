@@ -30,5 +30,6 @@ class ArduinoSerial(object):
 
     def read_command(self):  # reads a command to the arduino from the RasPi
         #   ser2 = serial.Serial('/dev/tty.usbmodem14201', 115200, timeout=1)
-        line = self.ser.readline().decode('utf-8').strip()
+        line = self.ser.readline()
+        line = line.decode('utf-8').strip()
         return line
