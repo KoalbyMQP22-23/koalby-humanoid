@@ -1,6 +1,5 @@
 import math
 import sys
-import time
 from threading import Thread
 
 from Kinematics.KinematicsClass import Link, Chain
