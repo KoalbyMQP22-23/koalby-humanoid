@@ -84,6 +84,7 @@ def Play():
         v0 = 0
         vf = 0
 
+
         # iterateThroughThis = []
 
         iterateThroughThis = trajPlanner.execute_cubic_traj(positionList, keys, t0, tf, v0, vf)
